@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delicias al Paso - Comida Rápida y Sabrosa</title>
+    <style>
+        /* Estilos generales */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fef4e8;
+            color: #333;
+        }
+        h1, h2, h3 {
+            color: #e67e22;
+        }
+        h1 {
+            text-align: center;
+        }
+        .section {
+            margin: 20px auto;
+            width: 80%;
+            background: #fff;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        img {
+            border-radius: 8px;
+            margin: 10px 0;
+            width: 350px;
+            height: 250px;
+        }
+        label, select, input {
+            display: block;
+            margin: 10px 0;
+        }
+        button {
+            background-color: #e67e22;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #d35400;
+        }
+        .pedido-container {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f9e9d2;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Delicias al Paso</h1>
+    <h3 align="center">"Comidas rápidas al mejor precio, justo como a ti te gustan"</h3>
+
+    <!-- Resumen del Pedido -->
+    <div class="pedido-container" id="pedidoContainer">
+        <h3>Resumen del Pedido</h3>
+        <ul id="listaPedido"></ul>
+        <button onclick="confirmarPedido()">Confirmar Pedido</button>
+    </div>
+
+    <!-- Panchos -->
+    <div class="section">
+        <h2>Panchos</h2>
+        <img src="./img/panchos.jpg" alt="Pancho">
+        <label>Seleccione aderezo:</label>
+        Ketchup<input type="checkbox" name="Ketchup" value="on">
+        Mostaza<input type="checkbox" name="Mostaza" value="on">
+        Mayonesa<input type="checkbox" name="Mayonesa" value="on">
+        Salsa golf<input type="checkbox" name="Salsa golf" value="on">
+        <label for="cantidadPancho">Cantidad:</label>
+        <input type="number" id="cantidadPancho" value="1" min="1" onchange="calcularPrecio(700, 'precioPancho', 'cantidadPancho')">
+        <h3>Precio Total: $<span id="precioPancho">700</span></h3>
+        <button onclick="agregarPedido('Pancho', document.getElementById('cantidadPancho').value, 700)">Agregar Pedido</button>
+    </div>
+
+    <!-- Hamburguesas -->
+    <div class="section">
+        <h2>Hamburguesas</h2>
+        <img src="./img/hamburguesa simple.jpg" alt="Hamburguesa Simple">
+        <img src="./img/hamburguesa doble.jpg" alt="Hamburguesa Doble">
+        <img src="./img/hamburguesa triple.jpg" alt="Hamburguesa Triple">
+        <label>Seleccione hamburguesa:</label>
+        <select id="tipoHamburguesa" onchange="calcularPrecio(this.value, 'precioHamburguesa', 'cantidadHamburguesa')">
+            <option value="1000">Simple - $1,000</option>
+            <option value="1500">Doble - $1,500</option>
+            <option value="2000">Triple - $2,000</option>
+        </select>
+        <label>Seleccione aderezo:</label>
+        Ketchup<input type="checkbox" name="Ketchup" value="on">
+        Mostaza<input type="checkbox" name="Mostaza" value="on">
+        Mayonesa<input type="checkbox" name="Mayonesa" value="on">
+        Barbacoa<input type="checkbox" name="Barbacoa" value="on">
+        <label for="cantidadHamburguesa">Cantidad:</label>
+        <input type="number" id="cantidadHamburguesa" value="1" min="1" onchange="calcularPrecio(document.getElementById('tipoHamburguesa').value, 'precioHamburguesa', 'cantidadHamburguesa')">
+        <h3>Precio Total: $<span id="precioHamburguesa">1000</span></h3>
+        <button onclick="agregarPedido('Hamburguesa', document.getElementById('cantidadHamburguesa').value, document.getElementById('tipoHamburguesa').value)">Agregar Pedido</button>
+    </div>
+
+    <!-- Pizzas -->
+    <div class="section">
+        <h2>Pizzas</h2>
+        <img src="./img/pizza_mozzarella.jpg" alt="Pizza Mozzarella">
+        <img src="./img/pizza_fugazzeta.jpg" alt="Pizza Fugazzeta">
+        <img src="./img/pizza_napolitana.jpg" alt="Pizza Napolitana">
+        <img src="./img/pizza_calabresa.jpg" alt="Pizza Calabresa">
+        <label for="tipoPizza">Seleccione tipo de pizza:</label>
+        <select id="tipoPizza" onchange="calcularPrecio(this.value, 'precioPizza', 'cantidadPizza')">
+            <option value="1200">Mozzarella - $1,200</option>
+            <option value="1500">Fugazzeta - $1,500</option>
+            <option value="1400">Napolitana - $1,400</option>
+            <option value="1600">Calabresa - $1,600</option>
+        </select>
+        <label for="cantidadPizza">Cantidad:</label>
+        <input type="number" id="cantidadPizza" value="1" min="1" onchange="calcularPrecio(document.getElementById('tipoPizza').value, 'precioPizza', 'cantidadPizza')">
+        <h3>Precio Total: $<span id="precioPizza">1200</span></h3>
+        <button onclick="agregarPedido('Pizza', document.getElementById('cantidadPizza').value, document.getElementById('tipoPizza').value)">Agregar Pedido</button>
+    </div>
+
+    <!-- Empanadas -->
+    <div class="section">
+        <h2>Empanadas</h2>
+        <img src="./img/bandeja _empanadas.jpg" alt="Bandeja _empanadas">
+        <label for="tipoEmpanada">Seleccione tipo de empanada:</label>
+        <select id="tipoEmpanada" onchange="calcularPrecio(this.value, 'precioEmpanada', 'cantidadEmpanada')">
+            <option value="300">Carne - $300</option>
+            <option value="300">Pollo - $300</option>
+            <option value="350">Pescado - $350</option>
+        </select>
+        <label for="cantidadEmpanada">Cantidad:</label>
+        <input type="number" id="cantidadEmpanada" value="1" min="1" onchange="calcularPrecio(document.getElementById('tipoEmpanada').value, 'precioEmpanada', 'cantidadEmpanada')">
+        <h3>Precio Total: $<span id="precioEmpanada">300</span></h3>
+        <button onclick="agregarPedido('Empanada', document.getElementById('cantidadEmpanada').value, document.getElementById('tipoEmpanada').value)">Agregar Pedido</button>
+    </div>
+
+    <!-- Script -->
+    <script>
+        const listaPedido = document.getElementById("listaPedido");
+
+        function calcularPrecio(precioUnitario, idPrecioTotal, idCantidad) {
+            const cantidad = document.getElementById(idCantidad).value;
+            const precioTotal = cantidad * precioUnitario;
+            document.getElementById(idPrecioTotal).innerText = precioTotal;
+        }
+
+        function agregarPedido(producto, cantidad, precioUnitario) {
+            const total = cantidad * precioUnitario;
+            const detalle = `${producto}, Cantidad: ${cantidad}, Total: $${total}`;
+            const li = document.createElement("li");
+            li.textContent = detalle;
+            listaPedido.appendChild(li);
+        }
+
+        function confirmarPedido() {
+            alert("¡Gracias por tu pedido! Estamos procesándolo.");
+            listaPedido.innerHTML = ""; // Limpia el resumen
+        }
+    </script>
+</body>
+</html>
